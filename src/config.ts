@@ -84,6 +84,10 @@ interface Config {
    */
   officerRosterChannelId: string;
   /**
+   * The Discord server's bank transactions channel ID.
+   */
+  bankTransactionsChannelId: string;
+  /**
    * This is appended to all commands. It is used when multiple developers are running bots
    * in the same Discord server so their development bots do not override each other.
    *
@@ -127,6 +131,7 @@ export const {
   gatehouseChannelId,
   inviteListChannelId,
   officerRosterChannelId,
+  bankTransactionsChannelId,
   commandSuffix,
   DATABASE_URL: databaseUrl,
   ENVIRONMENT: environment,

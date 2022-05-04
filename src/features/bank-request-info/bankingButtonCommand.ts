@@ -7,6 +7,7 @@ import { bankerRoleId, bankRequestsChannelId } from "../../config";
 import { ButtonCommand } from "../../shared/command/button-command";
 import {
   getChannel,
+  getTextChannel,
   requireInteractionMemberRole,
 } from "../../shared/command/util";
 
@@ -47,13 +48,8 @@ Attn: ${users.map((u) => `${u}`).join(" ")}`);
   }
 
   protected async authorize(interaction: ButtonInteraction<CacheType>) {
-    const channel = await getChannel(bankRequestsChannelId, interaction);
-    if (!channel?.isText()) {
-      throw new Error("The bank requests channel is not a text channel.");
-    }
-
+    const channel = await getTextChannel(bankRequestsChannelId, interaction);
     requireInteractionMemberRole(bankerRoleId, interaction);
-
     return channel;
   }
 }

@@ -5,7 +5,7 @@ import {
   CommandInteraction,
 } from "discord.js";
 
-export abstract class BaseCommand {
+export abstract class BaseSlashCommand {
   public constructor(
     private readonly _name: string,
     public readonly description: string

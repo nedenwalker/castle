@@ -3,12 +3,12 @@ import {
   CacheType,
   CommandInteraction,
 } from "discord.js";
-import { BaseCommand } from "./base-command";
+import { BaseSlashCommand } from "./base-slash-command";
 import { Subcommand } from "./subcommand";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { commandSuffix } from "../../config";
 
-export class Command extends BaseCommand {
+export class SlashCommand extends BaseSlashCommand {
   public readonly command: SlashCommandBuilder;
 
   public constructor(

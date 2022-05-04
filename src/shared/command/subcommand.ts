@@ -4,7 +4,7 @@ import {
   CacheType,
   CommandInteraction,
 } from "discord.js";
-import { BaseCommand } from "./base-command";
+import { BaseSlashCommand } from "./base-slash-command";
 
 export const getOption = (
   subcommandName: string,
@@ -22,7 +22,7 @@ export const getOption = (
   return subcommand.options.find((o) => o.name === option);
 };
 
-export abstract class Subcommand extends BaseCommand {
+export abstract class Subcommand extends BaseSlashCommand {
   public get command() {
     return new SlashCommandSubcommandBuilder()
       .setName(this.name)

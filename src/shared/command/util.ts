@@ -1,18 +1,13 @@
 import {
-  AutocompleteInteraction,
-  ButtonInteraction,
   CacheType,
-  CommandInteraction,
   GuildMemberRoleManager,
+  Interaction,
   PermissionResolvable,
 } from "discord.js";
 
 export const requireInteractionMemberRole = (
   roleId: string,
-  interaction:
-    | ButtonInteraction<CacheType>
-    | CommandInteraction<CacheType>
-    | AutocompleteInteraction<CacheType>
+  interaction: Interaction<CacheType>
 ) => {
   const roles = interaction.member?.roles as GuildMemberRoleManager;
   if (!roles) {
@@ -25,10 +20,7 @@ export const requireInteractionMemberRole = (
 
 export const requireInteractionMemberPermission = (
   permission: PermissionResolvable,
-  interaction:
-    | ButtonInteraction<CacheType>
-    | CommandInteraction<CacheType>
-    | AutocompleteInteraction<CacheType>
+  interaction: Interaction<CacheType>
 ) => {
   if (!interaction.memberPermissions?.has(permission)) {
     throw new Error("You do not have permission to do this.");
@@ -37,16 +29,25 @@ export const requireInteractionMemberPermission = (
 
 export const getChannel = async (
   channelId: string,
-  interaction: ButtonInteraction<CacheType>
+  interaction: Interaction<CacheType>
 ) => {
   return await interaction.guild?.channels.fetch(channelId);
 };
 
+export const getTextChannel = async (
+  channelId: string,
+  interaction: Interaction<CacheType>
+) => {
+  const channel = await getChannel(channelId, interaction);
+  if (!channel?.isText()) {
+    throw new Error(`${channelId} is not a text channel.`);
+  }
+  return channel;
+};
+
 export const getRole = (
   roleId: string,
-  interaction:
-    | CommandInteraction<CacheType>
-    | AutocompleteInteraction<CacheType>
+  interaction: Interaction<CacheType>
 ) => {
   return interaction.guild?.roles.cache.get(roleId);
 };
@@ -54,9 +55,7 @@ export const getRole = (
 export const requireUserRole = (
   userId: string,
   roleId: string,
-  interaction:
-    | CommandInteraction<CacheType>
-    | AutocompleteInteraction<CacheType>
+  interaction: Interaction<CacheType>
 ) => {
   const role = getRole(roleId, interaction);
   if (!role?.members.get(userId)) {

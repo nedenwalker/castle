@@ -1,5 +1,5 @@
 import { CacheType, Interaction } from "discord.js";
-import { getButton, getCommand } from "./register-commands";
+import { getButton, getCommand, getContextMenu } from "./register-commands";
 
 export const interactionCreateListener = async (
   interaction: Interaction<CacheType>
@@ -24,6 +24,17 @@ export const interactionCreateListener = async (
     try {
       await interaction.deferReply({ ephemeral: true });
       await getCommand(interaction).execute(interaction);
+      console.log(`/${interaction.commandName} succeeded`);
+    } catch (error) {
+      console.log(`/${interaction.commandName} failed: ${error}`);
+      await interaction.editReply(String(error));
+    }
+  }
+
+  if (interaction.isContextMenu()) {
+    try {
+      await interaction.deferReply({ ephemeral: true });
+      await getContextMenu(interaction).execute(interaction);
       console.log(`/${interaction.commandName} succeeded`);
     } catch (error) {
       console.log(`/${interaction.commandName} failed: ${error}`);
